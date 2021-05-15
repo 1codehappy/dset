@@ -40,7 +40,7 @@ You can create with wich version of your choice and edit the configuration in `.
 ./dset.sh worker
 ```
 
-* PHP-FPM
+* PHP-CLI
 
 ## Nginx Image
 
