@@ -2,6 +2,10 @@
 
 A set of docker's image for your local and production environments.
 
+## Installation
+
+Clone this repository from github.
+
 ## Commands List
 
 This argument `--help` will show all commands:
