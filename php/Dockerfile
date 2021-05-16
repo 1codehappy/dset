@@ -185,7 +185,7 @@ COPY ./php/configs/xdebug.ini /tmp/xdebug.ini
 COPY ./php/configs/php.ini /tmp/php.ini
 COPY ./php/configs/www.conf /tmp/www.conf
 COPY ./php/configs/start.sh /home/start.sh
-COPY ./php/configs/nginx.conf /tmp/nginx.conf
+COPY ./php/configs/nginx.conf /etc/nginx/nginx.conf
 
 #
 # Customize
@@ -194,12 +194,15 @@ RUN envsubst < /tmp/opcache.ini | sudo tee -a ${PHP_CONF_DIR}/opcache.ini \
     && envsubst < /tmp/xdebug.ini | sudo tee -a ${PHP_CONF_DIR}/xdebug.ini \
     && envsubst < /tmp/php.ini | sudo tee -a ${PHP_CONF_DIR}/php.ini \
     && if [ -f "/usr/local/sbin/php-fpm" ]; then \
-        rm -f /etc/nginx/nginx.conf \
-        && envsubst < /tmp/www.conf | sudo tee -a ${PHP_FPM_POOL_DIR}/www.conf \
-        && envsubst < /tmp/nginx.conf | sudo tee -a /etc/nginx/nginx.conf \
+        envsubst < /tmp/www.conf | sudo tee -a ${PHP_FPM_POOL_DIR}/www.conf \
+        && sed -i "s/{{ NGINX_CLIENT_MAX_BODY_SIZE }}/${PHP_UPLOAD_MAX_FILESIZE}/" /etc/nginx/nginx.conf \
+        && sed -i "s/{{ NGINX_LISTEN_PORT }}/${NGINX_LISTEN_PORT}/" /etc/nginx/nginx.conf \
+        && sed -i "s|{{ NGINX_ROOT }}|${NGINX_ROOT}|" /etc/nginx/nginx.conf \
         && mkdir -p /run/nginx \
         && touch /run/nginx/nginx.pid \
         && touch /run/php-fpm.pid \
+        && touch /var/log/nginx/error.log \
+        && chown ${USERNAME}:${GROUPNAME} /run/nginx/nginx.pid \
         && chown ${USERNAME}:${GROUPNAME} /run/php-fpm.pid \
         && chown -R ${USERNAME}:${GROUPNAME} /run/nginx \
         && chown -R ${USERNAME}:${GROUPNAME} /var/log/nginx \
