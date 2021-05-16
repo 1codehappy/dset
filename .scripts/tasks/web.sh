@@ -4,12 +4,16 @@ set -e
 
 DSET_ROOT=$(pwd)
 
+echo ${DSET_WEB_PATH:-"/var/www/app"}
+
 docker build \
-    -t dset/php \
-    -f ${DSET_ROOT}/php/nginx/Dockerfile \
+    -t ${DSET_WEB_IMAGE:-"dset/web"} \
+    -f ${DSET_ROOT}/php/Dockerfile \
     --build-arg PHP_VERSION=${PHP_VERSION} \
+    --build-arg PHP_MODE=fpm \
     --build-arg PUID=$(id -u $(whoami)) \
     --build-arg PGID=$(id -g $(whoami)) \
+    --build-arg APP_PATH=${DSET_WEB_PATH:-"/var/www/app"} \
     --build-arg PHP_XDEBUG_ENABLE=${PHP_XDEBUG_ENABLE} \
     --build-arg PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE} \
     --build-arg PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT} \
