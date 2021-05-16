@@ -48,6 +48,10 @@ RUN set -ex \
         gettext \
         sudo \
 #
+# Configure sudo
+#
+    && echo "Set disable_coredump false" >> /etc/sudo.conf \
+#
 # Configure timezone
 #
     && apk --no-cache add \

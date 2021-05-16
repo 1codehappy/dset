@@ -4,11 +4,14 @@ set -e
 
 DSET_ROOT=$(pwd)
 
-docker build -t dset/php \
-    -f ${DSET_ROOT}/php/worker/Dockerfile \
+docker build \
+    -t ${DSET_WORKER_IMAGE:-"dset/worker"} \
+    -f ${DSET_ROOT}/php/Dockerfile \
     --build-arg PHP_VERSION=${PHP_VERSION} \
+    --build-arg PHP_MODE=cli \
     --build-arg PUID=$(id -u $(whoami)) \
     --build-arg PGID=$(id -g $(whoami)) \
+    --build-arg APP_PATH=${DSET_WORKER_PATH:-"/var/www/app"} \
     --build-arg PHP_XDEBUG_ENABLE=${PHP_XDEBUG_ENABLE} \
     --build-arg PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE} \
     --build-arg PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT} \

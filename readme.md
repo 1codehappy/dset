@@ -2,6 +2,9 @@
 
 A set of docker's image for your local and production environments.
 
+I hope this project motivates you for creating your own docker setup and facilitate your life for learning or what else you want.
+You can `copy`, `edit` or `delete` (if you don't like!!!).
+
 ## Installation
 
 Clone this repository from github.
@@ -30,36 +33,44 @@ This image is based on [mhart/alpine-node](https://github.com/mhart/alpine-node)
 You can create with wich version of your choice:
 
 ```bash
-./dset.sh node
+./dset.sh build node
 ```
 
 * Node
 
 ## Worker Image
 
-This image is based on [Official PHP Image](https://hub.docker.com/_/php).
+This image is based on [Official PHP Image](https://hub.docker.com/_/php) using Alpine distro.
 You can create with wich version of your choice and edit the configuration in `.env` file:
 
 ```bash
-./dset.sh worker
+./dset.sh build worker
 ```
 
 * PHP-CLI
 
-## Nginx Image
+## Web Image
 
 This image is based on [Official PHP Image](https://hub.docker.com/_/php) too.
 You can create with wich version of your choice and edit the configuration in `.env` file:
 
 ```bash
-./dset.sh nginx
+./dset.sh build web
 ```
 
 * Nginx
 * PHP-FPM
 
+## Remove untagged images
 
-Happy coding!!
+This command will remove all untagged docker images.
+
+```bash
+./dset.sh clean
+```
+
+
+**Happy coding!!**
 
 ---
 
