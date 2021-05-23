@@ -16,19 +16,21 @@ LABEL maintainer="Gilberto Junior <olamundo@gmail.com>"
 #
 # Default values
 #
+ARG APP_PATH=/var/www/app
+ARG GROUPNAME=dset
 ARG PUID=1000
 ARG PGID=1000
 ARG USERNAME=you
-ARG APP_PATH=/var/www/app
 ARG TIMEZONE=UTC
 
 #
 # Environment variables
 #
 ENV APP_PATH=${APP_PATH} \
+    GROUPNAME=${GROUPNAME} \
     PGID=${PGID} \
     PUID=${PUID} \
-    PS1="\u@dset:\w\\$ " \
+    PS1="\u@${GROUPNAME}:\\$ " \
     TIMEZONE=${TIMEZONE} \
     USERNAME=${USERNAME}
 
@@ -67,7 +69,7 @@ RUN set -ex \
 #
 # Create user
 #
-    && (getent group ${PGID}} || addgroup -g ${PGID} dset) \
+    && (getent group ${PGID}} || addgroup -g ${PGID} ${GROUPNAME}) \
     && export GROUPNAME=$(getent group "$PGID" | cut -d: -f1) \
     && adduser -u ${PUID} -D -G ${GROUPNAME} ${USERNAME} \
     && chown -R ${USERNAME}:${GROUPNAME} ${APP_PATH} \
@@ -85,5 +87,8 @@ RUN set -ex \
         /usr/src/* \
         /var/cache/apk/* \
         /var/tmp/*
+
+# Expose webserver port
+EXPOSE 8080
 
 USER ${USER_NAME}
