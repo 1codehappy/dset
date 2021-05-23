@@ -2,7 +2,7 @@
 
 A set of docker's image for your local and production environments.
 
-I hope this project motivates you for creating your own docker setup and facilitate your life for learning or what else you want.
+I hope this project motivates you for creating your own docker setup and will make better your life for learning or what else you want.
 You can `copy`, `edit` or `delete` (if you don't like!!!).
 
 ## Installation
