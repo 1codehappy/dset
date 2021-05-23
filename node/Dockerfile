@@ -91,4 +91,4 @@ RUN set -ex \
 # Expose webserver port
 EXPOSE 8080
 
-USER ${USER_NAME}
+USER ${USERNAME}
