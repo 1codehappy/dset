@@ -19,11 +19,11 @@ LABEL maintainer="Gilberto Junior <olamundo@gmail.com>"
 #
 # Default values
 #
-ARG APP_ENV=production
+ARG APP_PATH=/var/www/app
+ARG GROUPNAME=dset
 ARG PUID=1000
 ARG PGID=1000
 ARG USERNAME=you
-ARG APP_PATH=/var/www/app
 ARG TIMEZONE=UTC
 
 #
@@ -53,12 +53,13 @@ ARG NGINX_ROOT
 # Environment variables
 #
 ENV APP_PATH=${APP_PATH} \
+    GROUPNAME=${GROUPNAME} \
     PGID=${PGID} \
     PUID=${PUID} \
     PHP_INI_DIR=/usr/local/etc/php \
     PHP_CONF_DIR=/usr/local/etc/php/conf.d \
     PHP_FPM_POOL_DIR=/usr/local/etc/php-fpm.d \
-    PS1="\u@dset:\w\\$ " \
+    PS1="\u@${GROUPNAME}:\\$ " \
     USERNAME=${USERNAME} \
 # Custom
     PHP_XDEBUG_ENABLE=${PHP_XDEBUG_ENABLE} \
@@ -103,8 +104,10 @@ RUN set -ex \
         libjpeg-turbo \
         libpng \
         libxml2 \
+        libzip-dev \
         sudo \
         shadow \
+        zip \
     && if [ -f "/usr/local/sbin/php-fpm" ]; then \
         apk --no-cache add nginx; \
     fi \
@@ -119,18 +122,22 @@ RUN set -ex \
         libpng-dev \
         tzdata \
         zlib \
+    && docker-php-ext-configure exif \
     && docker-php-ext-configure intl \
     && docker-php-ext-configure gd \
         --with-freetype \
         --with-jpeg \
+    && docker-php-ext-configure zip \
     && NUMPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
     && docker-php-ext-install -j${NUMPROC} \
         bcmath \
+        exif \
         gd \
         intl \
         opcache \
         pcntl \
         pdo_mysql \
+        zip \
     && if [ ${PHP_XDEBUG_ENABLE} = 1 ]; then \
         pecl install xdebug \
         && docker-php-ext-enable xdebug; \
@@ -140,6 +147,10 @@ RUN set -ex \
     && docker-php-ext-enable \
         redis \
     && mv "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini" \
+#
+# Install composer
+#
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 #
 # Configure timezone
 #
@@ -153,7 +164,7 @@ RUN set -ex \
 #
 # Create user
 #
-    && (getent group ${PGID}} || addgroup -g ${PGID} dset) \
+    && (getent group ${PGID}} || addgroup -g ${PGID} ${GROUPNAME}) \
     && export GROUPNAME=$(getent group "$PGID" | cut -d: -f1) \
     && adduser -u ${PUID} -D -G ${GROUPNAME} ${USERNAME} \
     && chown -R ${USERNAME}:${GROUPNAME} ${APP_PATH} \
