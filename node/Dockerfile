@@ -18,6 +18,7 @@ LABEL maintainer="Gilberto Junior <olamundo@gmail.com>"
 #
 ARG APP_PATH=/var/www/app
 ARG GROUPNAME=dset
+ARG IDENTIFIER=dset
 ARG PUID=1000
 ARG PGID=1000
 ARG USERNAME=you
@@ -30,7 +31,7 @@ ENV APP_PATH=${APP_PATH} \
     GROUPNAME=${GROUPNAME} \
     PGID=${PGID} \
     PUID=${PUID} \
-    PS1="\u@${GROUPNAME}:\\$ " \
+    PS1="\u@${IDENTIFIER}:\\$ " \
     TIMEZONE=${TIMEZONE} \
     USERNAME=${USERNAME}
 
