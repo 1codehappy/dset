@@ -38,7 +38,7 @@ You can create with wich version of your choice:
     --node-version=16.0 \                    # Node Version, default: 14.16
     --path=/var/www/foo \                    # Path to app, default: /var/www/app
     --group=foo \                            # Name of group, default: dset
-    --user=bar      \                        # User's name, default: you
+    --user=bar \                             # User's name, default: you
     --bash=foor.bar                          # Display on your bash shell, default: dset
 ```
 
@@ -61,11 +61,11 @@ You can create with wich version of your choice and edit the configuration in `.
     --php-mode=fpm \                        # PHP cli or fpm, default: fpm
     --path=/var/www/foo \                   # Path to app, default: /var/www/app
     --group=foo \                           # Name of group, default: dset
-    --user=bar      \                       # User's name, default: you
+    --user=bar \                            # User's name, default: you
     --bash=foor.bar \                       # Display on your bash shell, default: dset
     --xdebug=1 \                            # Activate xdebug, default: 0
     --upload-max-filesize=4M \              # Maximum upload filesize, default: 2M
-    --memory-limit=1G \                     # Maximum upload filesize, default: 256M
+    --memory-limit=1G \                     # Memory limit for php, default: 256M
     --opcache=1 \                           # Activate opcache, default: 0
     --nginx-listen-port=8081 \              # Declare listen port for nginx, default: 8080
     --nginx-vhost-path=/var/www/foo/public  # Declare vhost path for nginx, default: /var/www/app
