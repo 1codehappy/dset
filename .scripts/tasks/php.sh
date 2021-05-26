@@ -31,8 +31,8 @@ done
 docker build \
     -t ${imageName:-"dset/php"} \
     -f ${DSET_ROOT}/php/Dockerfile \
-    --build-arg PHP_VERSION=${phpVersion:-8.0} \
-    --build-arg PHP_MODE=${phpVersion:-fpm} \
+    --build-arg PHP_VERSION=${phpVersion:-"8.0"} \
+    --build-arg PHP_MODE=${phpMode:-fpm} \
     --build-arg APP_PATH=${path:-"/var/www/app"} \
     --build-arg GROUPNAME=${group:-"dset"} \
     --build-arg PUID=$(id -u $(whoami)) \
