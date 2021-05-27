@@ -41,7 +41,7 @@ docker build \
     --build-arg USERNAME=${user:-"$(whoami)"} \
     --build-arg PHP_XDEBUG_ENABLE=${xdebug:-0} \
     --build-arg PHP_UPLOAD_MAX_FILESIZE=${uploadMaxFileSize:-2M} \
-    --build-arg PHP_MEMORY_LIMIT=${phpMemoryLimit:256M} \
+    --build-arg PHP_MEMORY_LIMIT=${phpMemoryLimit:-256M} \
     --build-arg PHP_OPCACHE_ENABLE=${opcache:-0} \
     --build-arg NGINX_ROOT=${nginxPort:-8080} \
     --build-arg NGINX_ROOT=${nginxPath:-"/var/www/app"} \
