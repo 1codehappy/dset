@@ -175,7 +175,7 @@ RUN set -ex \
 #
 # Create user
 #
-    && (getent group ${PGID}} || addgroup -g ${PGID} ${GROUPNAME}) \
+    && (getent group ${PGID} || addgroup -g ${PGID} ${GROUPNAME}) \
     && export GROUPNAME=$(getent group "$PGID" | cut -d: -f1) \
     && adduser -u ${PUID} -D -G ${GROUPNAME} ${USERNAME} \
     && chown -R ${USERNAME}:${GROUPNAME} ${APP_PATH} \
